@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoversByP</title>
+    <!-- Open Graph -->
+    <meta property="og:title" content="CoversByP">
+    <meta property="og:description" content="Busca por modelo y obtén disponibilidad inmediata, ubicación y alternativas compatibles de los covers existentes en la tienda Benavides y Pérez">
+    <meta property="og:image" content="https://github.com/leyamendezperez-cloud/ByP/blob/master/public/Multimedia/logo_byo.webp">
+
+    <!-- SEO -->
+    <meta name="description" content="Encuentra el cover perfecto para una gran variedad de teléfonos. ">
+    <meta name="keywords" content="Benavides y Pérez, buscador de covers, covers Cabaiguán"> 
+    <meta name="author" content="Leya Méndez">
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow">
+    
+    <!-- Tema de la barra del nav -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta charset="UTF-8">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/index.css">
+    
+</head>
+
+<body>
+
+    <main>
+        <div class="finder general-card">
+            <div class="finder__info">
+                <h1 class="finder__tittle">CoverFinder</h1>
+                <h5 class="finder__principal-text">Encuentra el cover perfecto para tu teléfono.</h5>
+                <p class="finder__secundary-text">Busca por modelo y obtén disponibilidad inmediata, ubicación y alternativas compatibles.</p>
+            </div>
+            <img src="/Multimedia/FinderFoto.webp" class="finder__img" alt="Imagen de búsqueda">
+            <div class="finder__sub-section">
+                <input type="text" id="busqueda" placeholder="Marca del teléfono..." class="finder__input">
+                <button class="finder__btn">Buscar disponibilidad</button>
+            </div>
+        </div> 
+
+        <!-- Aquí se insertarán las tarjetas generadas por JavaScript -->
+        <div id="resultados"></div>
+    </main>
+
+    <script type="module">
+        import { cargarMarcas, buscarLocal } from "./js/db.js";
+
+        let marcas = [];
+        const input = document.getElementById("busqueda");
+        const contenedor = document.getElementById("resultados");
+        const botonBuscar = document.querySelector(".finder__btn");
+
+        async function init() {
+            // Mostrar un mensaje de carga mientras se obtienen los datos
+            contenedor.innerHTML = "<p class='cargando'>Cargando marcas...</p>";
+            try {
+                marcas = await cargarMarcas();
+                console.log(`Marcas cargadas: ${marcas.length}`);
+                // Si no hay término de búsqueda, no mostramos nada aún
+                contenedor.innerHTML = "";
+            } catch (error) {
+                console.error("Error al cargar marcas:", error);
+                contenedor.innerHTML = `<p class="error-carga">No se pudieron cargar las marcas. Inténtalo de nuevo más tarde.</p>`;
+            }
+        }
+
+        // Evento al hacer clic en el botón
+        botonBuscar.addEventListener("click", () => {
+            const termino = input.value.trim();
+            if (!termino) {
+                contenedor.innerHTML = ""; // Si no hay término, no mostramos nada
+                return;
+            }
+            const resultados = buscarLocal(termino, marcas);
+            mostrarResultados(resultados, termino);
+        });
+
+        // También permite buscar al presionar Enter
+        input.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                botonBuscar.click();
+            }
+        });
+
+        function mostrarResultados(lista, terminoBuscado) {
+            contenedor.innerHTML = "";
+
+            if (lista.length === 0) {
+                // Mostrar tarjeta de "no disponible"
+                const card = document.createElement("div");
+                card.className = "general-card not-available-card";
+                card.innerHTML = `
+                    <div class="not-available-card__info"> 
+                        <h4 class="not-available-card__tittle"><i class="ri-close-line"></i>No encontramos cover disponible</h4>
+                        <p class="marca">${terminoBuscado || "Modelo buscado"}</p>
+                        <p class="not-available-card__text">Lo sentimos, no hay cover disponible para el modelo buscado.</p>
+                    </div>
+                    <img src="/Multimedia/notAvailableFoto.png" class="not-available-card__img" alt="No disponible">
+                    <a class="not-available-card__btn" href="#busqueda"><i class="ri-reset-right-line"></i>Intentar otra búsqueda</a>
+                `;
+                contenedor.appendChild(card);
+
+            } else {
+                // Mostrar una tarjeta por cada marca encontrada
+                lista.forEach(marca => {
+                    // Generar spans de semejantes, resaltando el que coincida con el término buscado
+                    const semejantesHTML = generarSemejantes(marca.semejantes, terminoBuscado);
+
+                    const card = document.createElement("div");
+                    card.className = "general-card available-card";
+                    card.innerHTML = `
+                        <div class="available-card__info"> 
+                            <h4 class="available-card__tittle"><i class="ri-check-line"></i>Cover disponible</h4>
+                            <p class="marca">${marca.nombre}</p>
+                            <p class="available-card__ubication"><i class="ri-archive-fill"></i>Caja <span><i></i>${marca.caja}</span></p>
+                            <div class="available-card__similar-container">
+                                <span class="available-card__similar-tittle">También compatible con:</span>
+                                ${semejantesHTML}
+                            </div>
+                        </div>
+                        <img src="/Multimedia/AvailableFoto.png" class="available-card__img" alt="Cover disponible">
+                        <a class="available-card__btn" href="#busqueda"><i class="ri-reset-right-line"></i>Buscar otro modelo</a>
+                    `;
+                    contenedor.appendChild(card);
+                });
+            }
+        }
+
+        /**
+         * Genera los spans de semejantes.
+         * Si el nombre del semejante coincide con el término buscado, se añade la clase que lo resalta.
+         */
+        function generarSemejantes(semejantes, termino) {
+            if (!Array.isArray(semejantes) || semejantes.length === 0) {
+                return '<span class="available-card__similar-item">Ninguno</span>';
+            }
+            const term = termino.trim().toLowerCase();
+            return semejantes.map(sem => {
+                const coincide = sem.toLowerCase().includes(term) && term !== "";
+                const claseAdicional = coincide ? "resaltado" : "";
+                return `<span class="available-card__similar-item ${claseAdicional}">${sem}</span>`;
+            }).join("");
+        }
+
+        init();
+    </script>
+
+
+<!-- <i class="ri-search-line"></i>
+<i class="ri-instance-line"></i>
+<i class="ri-instance-fill"></i>
+<i class="ri-archive-line"></i>
+<i class="ri-archive-fill"></i>
+<i class="ri-archive-2-line"></i>
+<i class="ri-archive-2-fill"></i>
+<i class="ri-close-line"></i>
+<i class="ri-reset-right-line"></i>
+<i class="ri-lock-2-line"></i>
+<i class="ri-lock-line"></i>
+<i class="ri-eye-line"></i>
+<i class="ri-eye-off-line"></i>
+<i class="ri-smartphone-line"></i>
+<i class="ri-checkbox-circle-line"></i>
+<i class="ri-add-line"></i>
+<i class="ri-filter-3-line"></i>
+<span class="material-symbols-outlined">
+mobile_2
+</span>
+    -->
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+:root {
+    --background-blue-dark: #1f6787;
+    --background-blue-light: #3188a3;
+    --background-color: #0f4b69;
+    --background-color-card: #faf9f9;
+    --background-color-btn: #e3edf4;
+    --text-green: #5e9c4a;
+    --text-red: #c7302f;
+    --text-grey: #2e2e2e7b;
+    --tittle-color: #022b3b;
+    --input-color: #8698a2;
+    --input-border: #d6dadd;
+    --input-bck: #f3f4f6;
+}
+
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0px 2rem;
+    margin: 0;
+    font-family: sans-serif;
+    background-color: var(--background-color);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 25px 45px;
+    border-radius: 20px;
+    background-color: var(--background-color-card);
+}
+
+main >{
+    width: 100%;
+}
+
+input[type="checkbox"], button{
+    cursor: pointer;
+}
+
+/*__________________________ First container __________________________*/
+
+.first-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.first-container__img {
+    max-width: 110px;
+}
+
+.first-container__tittle {
+    margin: 0;
+    font-size: 2rem;
+    color: var(--tittle-color);
+}
+
+.first-container__subtittle {
+    margin: 0px;
+    font-size: 1.1rem;
+    text-align: center;
+    font-weight: 300;
+    color: var(--background-blue-dark);
+}
+
+/*__________________________ secound-container __________________________*/
+
+.secound-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.secound-container__icon {
+    font-size: 1.3rem;
+    padding: 15px;
+    border-radius: 50%;
+    color: var(--background-color);
+    background-color: var(--background-color-btn);
+}
+
+.secound-container__tittle {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--tittle-color);
+}
+
+/*__________________________ FORM __________________________*/
+#loginForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#loginForm label {
+    font-weight: 300;
+    color: var(--tittle-color);
+    margin-bottom: 5px;
+}
+
+#loginForm label:has(input[type="checkbox"]) {
+    margin: 2px 0px 20px 0px;
+}
+
+.loginForm__email-container,
+.loginForm__password-container {
+    position: relative;
+    height: 35px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    color: var(--input-color);
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    background-color: var(--input-bck);
+}
+
+
+#loginForm input[type="email"],
+#loginForm input[type="text"],
+#loginForm input[type="password"] {
+    height: 100%;
+    width: 100%;
+    padding-left: 35px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 8px;
+    background-color: transparent;
+}
+
+
+input:focus{
+    outline-color: var(--background-blue-light);
+    background-color: var(--background-color-btn);
+    color: var(--background-color);
+}
+
+input:focus .loginForm__icon{
+    color: var(--background-color) !important;
+}
+
+#loginForm input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bck);
+    border-radius: 3px;
+}
+
+#loginForm input[type="checkbox"]:checked {
+    background-color: var(--background-blue-dark);
+}
+
+#loginForm input[type="checkbox"]::after{
+    content: "✓";
+    font-size: 1rem;
+    color: #fff;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.2s ease;
+}
+
+#loginForm input[type="checkbox"]:checked::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+.loginForm__icon{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 7px;
+    font-size: 1.3rem;
+}
+
+.loginForm__icon--show-pssw, .loginForm__icon--hide-pssw{
+    left: calc(100% - 28.68px);
+    cursor: pointer;
+}
+
+.loginForm__btn{
+    padding: 10px 0px;
+    letter-spacing: .5px;
+    background: linear-gradient(to left, var(--background-blue-light), var(--background-blue-dark));
+    border-radius: 13px;
+    border: none;
+    color: #fff;
+}
+

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="CoversByP">
+    <meta property="og:description" content="Busca por modelo y obtén disponibilidad inmediata, ubicación y alternativas compatibles de los covers existentes en la tienda Benavides y Pérez">
+    <meta property="og:image" content="https://github.com/leyamendezperez-cloud/ByP/blob/master/public/Multimedia/logo_byo.webp">
+
+    <!-- SEO -->
+    <meta name="description" content="Encuentra el cover perfecto para una gran variedad de teléfonos. ">
+    <meta name="keywords" content="Benavides y Pérez, buscador de covers, covers Cabaiguán"> 
+    <meta name="author" content="Leya Méndez">
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow">
+    
+    <!-- Tema de la barra del nav -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta charset="UTF-8">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/login.css">
+    
+</head>
+<body>
+  <main>
+    <div class="first-container">
+      <img src="/Multimedia/logo_byo.webp" alt="" class="first-container__img">
+      <h2 class="first-container__tittle">CoverFinder</h2>
+      <h2 class="first-container__subtittle">Benavides y Pérez</h2>
+
+    </div>
+
+  <div class="secound-container">
+    <i class="ri-lock-2-line secound-container__icon"></i>
+    <p class="secound-container__tittle">Acceso exclusivo para administradores</p>
+  </div>
+
+    <form id="loginForm">
+      <label for="email">Correo electrónico</label>
+      <div class="loginForm__email-container">
+        <i class="ri-mail-star-line loginForm__icon"></i>
+        <input type="email" id="email" placeholder="Correo" required>
+      </div>
+
+      <label for="password">Contraseña</label>
+      <div class="loginForm__password-container">
+        <i class="ri-lock-star-line loginForm__icon"></i>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        <i class="ri-eye-line loginForm__icon loginForm__icon--show-pssw"></i>
+        <i class="ri-eye-off-line loginForm__icon loginForm__icon--hide-pssw" style="display: none;"></i>
+      </div>
+
+      <label for="remember" style="display: inline-block;">
+        <input type="checkbox" name="" id="remember">
+        Recordarme en este dispositivo
+      </label>
+      <button type="submit" class="loginForm__btn">Ingresar</button>
+    </form>
+
+    <p id="error" style="color: var(--text-red); display: none;"></p>
+  </main>
+
+
+  <script type="module">
+  import { login } from "./js/auth.js";
+
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const correo = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    try {
+      await login(correo, password);
+      window.location.href = "admin.html";
+    } catch (error) {
+      document.getElementById("error").textContent = error.message;
+    }
+  });
+
+    const btnShow = document.querySelector(".loginForm__icon--show-pssw");
+    const btnHide = document.querySelector(".loginForm__icon--hide-pssw");
+
+    btnShow.addEventListener("click", ()=>{
+      const passwordInput = document.querySelector("#password");
+      passwordInput.setAttribute("type", "text");
+      btnShow.style.display = "none";
+      btnHide.style.display = "inline-block";
+    })
+
+    btnHide.addEventListener("click", ()=>{
+      const passwordInput = document.querySelector("#password");
+      passwordInput.setAttribute("type", "password");
+      btnHide.style.display = "none";
+      btnShow.style.display = "inline-block";
+    })
+
+  </script>
+</body>
+</html>

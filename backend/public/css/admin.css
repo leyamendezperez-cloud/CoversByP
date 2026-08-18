@@ -1,0 +1,271 @@
+:root {
+    --background-blue-dark: #1f6787;
+    --background-blue-light: #3188a3;
+    --background-color: #0f4b69;
+    --background-color-card: #faf9f9;
+    --background-color-btn: #e3edf4;
+    --text-green: #5e9c4a;
+    --text-red: #c7302f;
+    --text-grey: #2e2e2e7b;
+    --tittle-color: #022b3b;
+    --input-color: #8698a2;
+    --input-border: #d0d1d1;
+    --input-bck: #f3f4f6;
+}
+
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 0px;
+    margin: 14px;
+    font-family: sans-serif;
+    background-color: var(--background-color);
+
+}
+
+button {
+    cursor: pointer;
+}
+
+/* ____________________________Header Section_________________________ */
+
+header,
+.add-marca,
+.tabla-marcas-container {
+    max-width: 800px;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.header__subtittle,
+.header__tittle,
+#formTitle,
+.add-marca__subtittle {
+    margin: 0;
+}
+
+.header__tittle {
+    font-size: 2.2rem;
+    color: #fff;
+}
+
+.header__subtittle {
+    font-size: 1rem;
+    color: rgb(0, 204, 255);
+}
+
+.header__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 8px 5px;
+    margin-top: 15px;
+    border-radius: 6px;
+    color: #fff;
+    background-color: transparent;
+    border: .5px solid var(--input-border);
+    backdrop-filter: blur(8px)
+}
+
+.header__btn i {
+    font-size: 1.2rem
+}
+
+
+/* __________________________ADD marca section___________________________ */
+
+.add-marca,
+.tabla-marcas-container {
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: .7rem;
+    background-color: var(--background-color-card);
+}
+
+.add-marca__text-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 17px;
+}
+
+.add-marca__text-container i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    aspect-ratio: 1/1;
+    font-size: 2.5rem;
+    color: var(--background-blue-dark);
+    background-color: var(--background-color-btn);
+    border-radius: 50%;
+}
+
+.add-marca__subtittle {
+    font-size: .8rem;
+    font-weight: 400;
+    color: #333;
+}
+
+#marcaForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+#marcaForm label {
+    font-weight: 600;
+    color: var(--tittle-color);
+}
+
+.form__label-box {
+    grid-column: 1/2;
+}
+
+.form__label-stock {
+    grid-column: 2/3;
+}
+
+.form__label-stock,
+.form__label-box {
+    grid-row: 2/3;
+}
+
+.form__label-similar,
+.form__label-name {
+    grid-column: 1/3;
+}
+
+.form__label-similar input,
+.form__label-name input,
+.form__label-stock input,
+.form__label-box input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 5px;
+    margin-top: 5px;
+    border-radius: 7px;
+    border: 1px solid var(--input-border);
+}
+
+input:focus {
+    outline-color: var(--background-blue-light);
+    color: var(--background-color);
+}
+
+.form__label-similar span {
+    font-weight: 200;
+    color: #333;
+}
+
+#cancelEditBtn,
+#saveBtn {
+    padding: 8px 0px;
+    font-size: 1rem;
+    font-weight: 200;
+    border-radius: 6px;
+}
+
+#cancelEditBtn {
+    background-color: transparent;
+    color: var(--tittle-color);
+    border: 1px solid var(--input-border);
+}
+
+#saveBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: linear-gradient(to left, var(--background-blue-dark), var(--background-blue-light));
+    color: #fff;
+    border: none;
+}
+
+/* _________________________Tabla section____________________________ */
+
+#tablaMarcas {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid var(--input-border);
+    border-spacing: 0;
+}
+
+#tablaMarcas thead {
+    background-color: var(--background-color-btn);
+}
+
+#tablaMarcas th {
+    text-align: center;
+
+}
+
+#tablaMarcas thead th {
+    padding: 6px 0px;
+    font-weight: 100;
+    background-color: var(--background-color-btn);
+    font-weight: 400;
+}
+
+#tablaMarcas tbody td {
+    text-align: center;
+    border-bottom: 1px solid var(--input-border);
+}
+
+#tablaMarcas tbody td:first-child {
+    text-align: start;
+    padding-left: 5px;
+}
+
+#tablaMarcas tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+.editBtn,
+.deleteBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 50px;
+    font-weight: 400;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1.4px solid;
+}
+
+.editBtn {
+    margin-bottom: 3px;
+    color: var(--background-color);
+}
+
+.deleteBtn {
+    color: var(--text-red);
+}
+
+.editBtn:hover,
+.deleteBtn:hover {
+    color: #fff;
+}
+
+.editBtn:hover {
+    background: linear-gradient(to left, var(--background-blue-dark), var(--background-blue-light));
+}
+
+.deleteBtn:hover {
+    background: linear-gradient(to left, var(--text-red), rgb(251, 86, 86));
+}
