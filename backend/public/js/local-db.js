@@ -41,20 +41,29 @@ export async function cargarMarcas() {
 
 // Función para crear una nueva marca
 export async function crearMarca(data) {
-  const { nombre, caja, stock, semejantes } = data;
+  const { nombre, caja, stock, semejantes, id } = data;
   try {
-    const result = await db.sql`
-      INSERT INTO marcas (nombre, caja, stock, semejantes)
-      VALUES (${nombre}, ${caja}, ${stock}, ${JSON.stringify(semejantes || [])})
-    `;
-    // Devolver el objeto creado con el id generado
-    return {
-      id: result.lastInsertRowid,
-      nombre,
-      caja,
-      stock,
-      semejantes: semejantes || []
-    };
+    let result;
+    if (id) {
+      // Si se proporciona un id, lo usamos (para sincronización)
+      result = await db.sql`
+        INSERT INTO marcas (id, nombre, caja, stock, semejantes)
+        VALUES (${id}, ${nombre}, ${caja}, ${stock}, ${JSON.stringify(semejantes || [])})
+      `;
+      return { id, nombre, caja, stock, semejantes: semejantes || [] };
+    } else {
+      result = await db.sql`
+        INSERT INTO marcas (nombre, caja, stock, semejantes)
+        VALUES (${nombre}, ${caja}, ${stock}, ${JSON.stringify(semejantes || [])})
+      `;
+      return {
+        id: result.lastInsertRowid,
+        nombre,
+        caja,
+        stock,
+        semejantes: semejantes || []
+      };
+    }
   } catch (error) {
     console.error('Error al crear marca:', error);
     throw error;
@@ -98,6 +107,25 @@ export function buscarLocal(texto, marcas) {
   return marcas.filter(marca =>
     marca.nombre.toLowerCase().includes(busqueda)
   );
+}
+
+// Sincroniza la BD local con los datos del servidor (reemplaza todo)
+export async function syncLocalDB(marcas) {
+  try {
+    // Limpiar tabla local
+    await db.sql`DELETE FROM marcas`;
+    // Insertar todas las marcas del servidor
+    for (const marca of marcas) {
+      await db.sql`
+        INSERT INTO marcas (id, nombre, caja, stock, semejantes)
+        VALUES (${marca.id}, ${marca.nombre}, ${marca.caja}, ${marca.stock}, ${JSON.stringify(marca.semejantes || [])})
+      `;
+    }
+    console.log('BD local sincronizada con el servidor');
+  } catch (error) {
+    console.error('Error al sincronizar BD local:', error);
+    throw error;
+  }
 }
 
 // (Opcional) Función para limpiar la base de datos (para pruebas)
