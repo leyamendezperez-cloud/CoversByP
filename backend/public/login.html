@@ -21,9 +21,18 @@
     <!-- Tema de la barra del nav -->
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
     <meta charset="UTF-8">
+    <link rel="manifest" href="/manifest.json">
 
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css" rel="stylesheet"/>
     <link rel="stylesheet" href="css/login.css">
+
+    <script type="importmap">
+  {
+    "imports": {
+      "sqlocal": "https://cdn.jsdelivr.net/npm/sqlocal@0.8.0/dist/index.js"
+    }
+  }
+</script>
     
 </head>
 <body>
@@ -44,15 +53,15 @@
       <label for="email">Correo electrónico</label>
       <div class="loginForm__email-container">
         <i class="ri-mail-star-line loginForm__icon"></i>
-        <input type="email" id="email" placeholder="Correo" required>
+        <input type="email" id="email" placeholder="Correo" required minlength="10" maxlength="30">
       </div>
 
       <label for="password">Contraseña</label>
       <div class="loginForm__password-container">
         <i class="ri-lock-star-line loginForm__icon"></i>
-        <input type="password" id="password" placeholder="Contraseña" required>
-        <i class="ri-eye-line loginForm__icon loginForm__icon--show-pssw"></i>
-        <i class="ri-eye-off-line loginForm__icon loginForm__icon--hide-pssw" style="display: none;"></i>
+        <input type="password" id="password" placeholder="Contraseña" required pattern="[A-Za-z0-9_]{4,16}">
+        <i class="ri-eye-line loginForm__icon loginForm__icon--show-pssw" aria-label="Mostrar"></i>
+        <i class="ri-eye-off-line loginForm__icon loginForm__icon--hide-pssw" style="display: none;" aria-label="Ocultar contraseña"></i>
       </div>
 
       <label for="remember" style="display: inline-block;">
@@ -97,6 +106,13 @@
       btnHide.style.display = "none";
       btnShow.style.display = "inline-block";
     })
+        if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('SW registrado en login'))
+          .catch(err => console.log('Error SW login:', err));
+      });
+    }
 
   </script>
 </body>

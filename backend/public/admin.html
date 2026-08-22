@@ -11,7 +11,7 @@
     content="Busca por modelo y obtén disponibilidad inmediata, ubicación y alternativas compatibles de los covers existentes en la tienda Benavides y Pérez">
   <meta property="og:image"
     content="https://github.com/leyamendezperez-cloud/ByP/blob/master/public/Multimedia/logo_byo.webp">
-    
+
   <!-- SEO -->
   <meta name="description" content="Encuentra el cover perfecto para una gran variedad de teléfonos. ">
   <meta name="keywords" content="Benavides y Pérez, buscador de covers, covers Cabaiguán">
@@ -24,9 +24,20 @@
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta charset="UTF-8">
 
+  <link rel="manifest" href="/manifest.json">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=mobile_2" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=mobile_2" />
   <link rel="stylesheet" href="css/admin.css">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "sqlocal": "https://cdn.jsdelivr.net/npm/sqlocal@0.8.0/dist/index.js"
+    }
+  }
+</script>
+
 </head>
 
 <body>
@@ -52,13 +63,14 @@
       </div>
     </div>
 
-    <form id="marcaForm">
+    <form id="marcaForm" aria-label="Formulario para añadir una nueva marca de cover">
       <input type="hidden" id="editId">
-      <label class="form__label-name">Nombre de la marca <input type="text" id="nombre" placeholder="Ej: Samsung Galaxy A15"></label>
+      <label class="form__label-name">Nombre de la marca <input type="text" id="nombre"
+          placeholder="Ej: Samsung Galaxy A15"></label>
       <label class="form__label-box">Caja <input type="number" id="caja" required placeholder="Ej:2"></label>
       <label class="form__label-stock">Stock <input type="number" id="stock" required placeholder="Ej: 23"></label>
       <label class="form__label-similar">Semejantes <span>(separados por coma):</span>
-        <input type="text" id="semejantes" placeholder="Redmi Note 12, Samsung Galaxy A15, ..." >
+        <input type="text" id="semejantes" placeholder="Redmi Note 12, Samsung Galaxy A15, ...">
       </label>
       <button type="button" id="cancelEditBtn" style="display: none;">Cancelar</button>
       <button type="submit" id="saveBtn"><i class="ri-save-line"></i>Guardar </button>
@@ -66,7 +78,7 @@
   </section>
 
   <!-- Tabla de marcas -->
-  <section class="tabla-marcas-container">
+  <main class="tabla-marcas-container">
     <div class="add-marca__text-container">
       <i class="ri-smartphone-line"></i>
       <div>
@@ -75,7 +87,7 @@
       </div>
     </div>
 
-    <table id="tablaMarcas">
+    <table id="tablaMarcas" aria-label="Tabla de las marcas registradas">
       <thead>
         <tr>
           <th>Marca</th>
@@ -87,13 +99,20 @@
       </thead>
       <tbody id="tablaBody"></tbody>
     </table>
-  </section>
+  </main>
 
 
   <!-- Script de inicialización (mínimo) -->
   <script type="module">
-  import { inicializarPanel } from "./js/ui.js";
-  inicializarPanel();
+    import { inicializarPanel } from "./js/ui.js";
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('SW registrado en admin'))
+          .catch(err => console.log('Error SW admin:', err));
+      });
+    }
+    inicializarPanel();
   </script>
 </body>
 

@@ -118,8 +118,8 @@ function mostrarMarcas(lista) {
       <td>${marca.stock}</td>
       <td>${(marca.semejantes || []).join(", ")}</td>
       <td class="container-btn-table">
-        <button class="editBtn" data-id="${marca.id}"><i class="ri-pencil-line"></i></button>
-        <button class="deleteBtn" data-id="${marca.id}"><i class="ri-delete-bin-5-line"></i></button>
+        <button class="editBtn" data-id="${marca.id}" aria-label="Editar marca"><i class="ri-pencil-line"></i></button>
+        <button class="deleteBtn" data-id="${marca.id}" aria-label="Eliminar marca"> <i class="ri-delete-bin-5-line"></i></button>
       </td>
     `;
     elementos.tablaBody.appendChild(tr);

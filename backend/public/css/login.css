@@ -27,28 +27,32 @@ body {
     margin: 0;
     font-family: sans-serif;
     background-color: var(--background-color);
+    background: url(../Multimedia/backgorund-img.webp) center/cover;
 }
 
 main {
     display: flex;
     flex-direction: column;
+    max-width: 500px;
+    width: 100%;
     gap: 25px;
     padding: 25px 45px;
     border-radius: 20px;
     background-color: var(--background-color-card);
 }
 
-main >{
+main> {
     width: 100%;
 }
 
-input[type="checkbox"], button{
+input[type="checkbox"],
+button {
     cursor: pointer;
 }
 
 /*__________________________ First container __________________________*/
 
-.first-container{
+.first-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -138,13 +142,13 @@ input[type="checkbox"], button{
 }
 
 
-input:focus{
+input:focus {
     outline-color: var(--background-blue-light);
     background-color: var(--background-color-btn);
     color: var(--background-color);
 }
 
-input:focus .loginForm__icon{
+input:focus .loginForm__icon {
     color: var(--background-color) !important;
 }
 
@@ -165,7 +169,7 @@ input:focus .loginForm__icon{
     background-color: var(--background-blue-dark);
 }
 
-#loginForm input[type="checkbox"]::after{
+#loginForm input[type="checkbox"]::after {
     content: "✓";
     font-size: 1rem;
     color: #fff;
@@ -180,7 +184,7 @@ input:focus .loginForm__icon{
 }
 
 
-.loginForm__icon{
+.loginForm__icon {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -188,12 +192,13 @@ input:focus .loginForm__icon{
     font-size: 1.3rem;
 }
 
-.loginForm__icon--show-pssw, .loginForm__icon--hide-pssw{
+.loginForm__icon--show-pssw,
+.loginForm__icon--hide-pssw {
     left: calc(100% - 28.68px);
     cursor: pointer;
 }
 
-.loginForm__btn{
+.loginForm__btn {
     padding: 10px 0px;
     letter-spacing: .5px;
     background: linear-gradient(to left, var(--background-blue-light), var(--background-blue-dark));
@@ -201,4 +206,3 @@ input:focus .loginForm__icon{
     border: none;
     color: #fff;
 }
-

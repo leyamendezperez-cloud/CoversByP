@@ -27,6 +27,7 @@ body {
     margin: 14px;
     font-family: sans-serif;
     background-color: var(--background-color);
+    background: url(../Multimedia/backgorund-img.webp) center/cover;
 
 }
 
@@ -222,6 +223,7 @@ input:focus {
 
 #tablaMarcas tbody td {
     text-align: center;
+    padding: 6px 0px;
     border-bottom: 1px solid var(--input-border);
 }
 

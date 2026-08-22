@@ -14,6 +14,7 @@
 }
 
 
+
 * {
     -webkit-tap-highlight-color: transparent;
 }
@@ -29,6 +30,7 @@ body {
     padding: 10px 1rem;
     min-height: 100dvh;
     background-color: var(--background-color);
+    background: url(../Multimedia/backgorund-img.webp) center/cover;
 }
 
 a {
